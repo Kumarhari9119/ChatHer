@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chather — Private chat</title>
+<style>
+:root{color-scheme:light dark;--bg:light-dark(#f3f6f5,#101715);--panel:light-dark(#fff,#17201d);--panel2:light-dark(#f7faf8,#1d2924);--text:light-dark(#1d2a25,#eaf3ed);--muted:light-dark(#788780,#9caaa2);--line:light-dark(#e5ece8,#2b3932);--green:light-dark(#167d5a,#4bd5a0);--green2:light-dark(#e3f6ed,#183e30);--bubble:light-dark(#fff,#26332d);--mine:light-dark(#d9f8e8,#20533e);--shadow:0 18px 55px #12251b12}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible{outline:3px solid #54c99b80;outline-offset:2px}.app{min-height:100vh;background:var(--bg);padding:24px;display:grid;place-items:center}.shell{width:min(1240px,100%);height:min(800px,calc(100vh - 48px));min-height:570px;background:var(--panel);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);display:grid;grid-template-columns:340px minmax(0,1fr);overflow:hidden}.sidebar{border-right:1px solid var(--line);display:flex;flex-direction:column;min-width:0}.brandbar{padding:23px 22px 18px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:11px;font-size:21px;font-weight:750;letter-spacing:-.7px}.logo{height:38px;width:38px;border-radius:13px;background:var(--green);display:grid;place-items:center;color:white}.logo svg{width:23px}.tiny{font-size:12px;color:var(--muted)}.iconbtn{border:0;background:transparent;color:var(--muted);border-radius:10px;padding:9px;display:grid;place-items:center}.iconbtn:hover{background:var(--panel2);color:var(--text)}.search{padding:0 18px 17px;position:relative}.search input{width:100%;border:1px solid var(--line);border-radius:12px;background:var(--panel2);padding:12px 12px 12px 38px;color:var(--text);outline:none}.search svg{position:absolute;left:31px;top:13px;width:17px;color:var(--muted)}.sectionlabel{padding:0 22px 10px;display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:11px;letter-spacing:1.3px;font-weight:750}.chats{overflow:auto;padding:0 10px 14px}.chatrow{width:100%;display:flex;gap:12px;align-items:center;padding:12px;border:0;background:transparent;color:inherit;text-align:left;border-radius:14px}.chatrow:hover{background:var(--panel2)}.chatrow.active{background:var(--green2)}.avatar{height:46px;width:46px;flex:0 0 46px;border-radius:50%;display:grid;place-items:center;font-weight:750;color:#fff;background:linear-gradient(145deg,#4d9c7b,#236b54);position:relative}.avatar.pink{background:linear-gradient(145deg,#d79ba7,#a95f7a)}.avatar.blue{background:linear-gradient(145deg,#7fa9db,#496b9d)}.avatar.gold{background:linear-gradient(145deg,#d8b46c,#9b7740)}.online{position:absolute;right:0;bottom:1px;width:12px;height:12px;background:#43c98c;border:2px solid var(--panel);border-radius:50%}.chatmeta{min-width:0;flex:1}.chathead{display:flex;justify-content:space-between;gap:6px;align-items:center}.chatname{font-weight:680;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.time{font-size:11px;color:var(--muted);white-space:nowrap}.preview{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}.badge{background:var(--green);color:white;border-radius:20px;font-size:10px;padding:2px 6px}.sidefoot{margin-top:auto;padding:16px 20px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px}.sidefoot .avatar{height:34px;width:34px;flex-basis:34px;font-size:12px}.usertext{flex:1;min-width:0}.usertext strong{display:block;font-size:12px}.usertext span{font-size:11px;color:var(--muted)}.main{min-width:0;display:flex;flex-direction:column;position:relative;background:var(--panel)}.topbar{height:83px;flex:0 0 83px;padding:16px 25px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:13px}.topbar .avatar{height:44px;width:44px;flex-basis:44px}.person{flex:1;min-width:0}.person strong{display:block;font-size:15px}.person span{font-size:12px;color:var(--green)}.topactions{display:flex;gap:5px}.conversation{flex:1;overflow:auto;padding:28px clamp(16px,5vw,68px);display:flex;flex-direction:column;gap:15px;background-image:radial-gradient(var(--line) .7px,transparent .7px);background-size:21px 21px}.daylabel{align-self:center;background:var(--panel);border:1px solid var(--line);padding:5px 12px;border-radius:20px;font-size:11px;color:var(--muted);margin:2px 0 8px}.msg{max-width:min(75%,480px);display:flex;flex-direction:column;gap:4px;align-self:flex-start}.msg.mine{align-self:flex-end}.bubble{padding:11px 14px;border-radius:4px 16px 16px 16px;background:var(--bubble);border:1px solid var(--line);box-shadow:0 2px 5px #00000004;overflow-wrap:anywhere}.mine .bubble{background:var(--mine);border-color:transparent;border-radius:16px 4px 16px 16px}.stamp{font-size:10px;color:var(--muted);align-self:flex-end;display:flex;gap:5px;align-items:center}.tick{color:var(--green);font-weight:800}.composer-wrap{padding:16px 23px 20px;border-top:1px solid var(--line);background:var(--panel)}.hint{font-size:10px;color:var(--muted);text-align:center;margin-bottom:10px}.composer{display:flex;align-items:center;gap:8px;padding:7px 8px;border:1px solid var(--line);background:var(--panel2);border-radius:16px}.composer input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--text);padding:9px 3px}.send{width:42px;height:42px;border:0;border-radius:12px;background:var(--green);color:white;display:grid;place-items:center}.send:hover{filter:brightness(1.07)}.send svg{width:19px}.empty{margin:auto;text-align:center;max-width:300px;padding:25px}.empty .logo{margin:0 auto 14px;width:52px;height:52px}.empty h2{margin:0 0 8px}.empty p{color:var(--muted);font-size:13px}.mobileback{display:none}.toast{position:absolute;bottom:95px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--panel);padding:10px 15px;border-radius:10px;font-size:12px;box-shadow:var(--shadow);display:none;z-index:5}.modalback{position:fixed;inset:0;background:#0a1510a8;backdrop-filter:blur(7px);display:grid;place-items:center;padding:20px;z-index:20}.modal{width:min(420px,100%);background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:30px;box-shadow:0 30px 100px #0003}.modal .brand{justify-content:center;margin-bottom:22px}.modal h2{text-align:center;margin:0 0 7px;font-size:24px;letter-spacing:-.7px}.modal p{text-align:center;color:var(--muted);font-size:13px;margin:0 0 24px}.field{display:block;margin:14px 0}.field span{display:block;font-size:12px;font-weight:650;margin-bottom:7px}.field input{width:100%;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:11px;padding:12px}.primary{width:100%;border:0;border-radius:12px;background:var(--green);color:white;font-weight:700;padding:13px;margin-top:8px}.switch{text-align:center;font-size:12px;color:var(--muted);margin-top:17px}.switch button{border:0;background:none;color:var(--green);font-weight:700}.demo-note{margin-top:17px;padding:11px;border-radius:10px;background:var(--green2);font-size:11px;color:var(--muted);text-align:center}.hidden{display:none!important}
+@media(max-width:760px){.app{padding:0}.shell{height:100dvh;min-height:0;border-radius:0;border:0;grid-template-columns:1fr}.sidebar{border-right:0}.main{display:none}.shell.showchat .sidebar{display:none}.shell.showchat .main{display:flex}.brandbar{padding-top:20px}.mobileback{display:grid}.topbar{padding:13px 14px}.conversation{padding:22px 15px}.msg{max-width:88%}.composer-wrap{padding:12px}.hint{display:none}.sidefoot{padding-bottom:20px}}
+@media(min-width:761px){.mobileback{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="shell" id="shell">
+<aside class="sidebar">
+ <div class="brandbar"><div class="brand"><span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 11.5a7.5 7.5 0 0 1-11.1 6.6L4 19l.9-4.1A7.5 7.5 0 1 1 20 11.5Z"/><path d="M8.5 9.5c.6 2 2 3.4 4 4"/></svg></span>chather<span style="color:var(--green)">.</span></div><button class="iconbtn" id="newChat" title="New conversation"><svg width="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg></button></div>
+ <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg><input id="search" placeholder="Search conversations" aria-label="Search conversations"></div>
+ <div class="sectionlabel"><span>MESSAGES</span><span id="chatCount">04</span></div>
+ <div class="chats" id="chatList"></div>
+ <div class="sidefoot"><div class="avatar">HK</div><div class="usertext"><strong id="userName">Hari Nandan</strong><span>Private account</span></div><button class="iconbtn" id="accountBtn" title="Account settings"><svg width="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.7 2.9-.2-.1a1.7 1.7 0 0 0-1.9.3l-.1.1h-3.4l-.1-.2a1.7 1.7 0 0 0-1.5-1 1.7 1.7 0 0 0-.9.3l-.2.1-2.9-1.7.1-.2a1.7 1.7 0 0 0-.3-1.9l-.1-.1v-3.4l.2-.1a1.7 1.7 0 0 0 1-1.5 1.7 1.7 0 0 0-.3-.9l-.1-.2 1.7-2.9.2.1a1.7 1.7 0 0 0 1.9-.3l.1-.1h3.4l.1.2a1.7 1.7 0 0 0 1.5 1 1.7 1.7 0 0 0 .9-.3l.2-.1 2.9 1.7-.1.2a1.7 1.7 0 0 0 .3 1.9l.1.1V15Z"/></svg></button></div>
+</aside>
+<main class="main">
+ <header class="topbar"><button class="iconbtn mobileback" id="backBtn" aria-label="Back to chats"><svg width="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></button><div class="avatar" id="activeAvatar">A<span class="online"></span></div><div class="person"><strong id="activeName">Aarav Sharma</strong><span id="activeStatus">● Online now</span></div><div class="topactions"><button class="iconbtn" id="infoBtn" title="Conversation info"><svg width="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7h.01"/></svg></button><button class="iconbtn" id="moreBtn" title="More options"><svg width="19" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button></div></header>
+ <section class="conversation" id="messages" aria-live="polite"></section>
+ <div class="composer-wrap"><div class="hint">🔒 Your conversations should be private, always.</div><form class="composer" id="messageForm"><button type="button" class="iconbtn" id="attachBtn" title="Attach (demo)"><svg width="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m20.5 11.5-8.7 8.7a5 5 0 0 1-7.1-7.1l9.2-9.2a3.3 3.3 0 0 1 4.7 4.7l-9.2 9.2a1.7 1.7 0 0 1-2.4-2.4l8.3-8.3"/></svg></button><input id="messageInput" autocomplete="off" placeholder="Write a message…" aria-label="Message" maxlength="2000"><button class="send" type="submit" aria-label="Send message"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></button></form></div>
+ <div class="toast" id="toast" role="status"></div>
+</main>
+</div></div>
+
+
+<div class="modalback" id="authModal">
+  <div class="modal">
+    <div class="brand">
+      <span class="logo">✦</span>
+      chather<span style="color:var(--green)">.</span>
+    </div>
+
+    <h2 id="authTitle">Welcome to Chather</h2>
+    <p id="authSubtitle">Sign in to your private space.</p>
+
+    <div style="display:flex;gap:8px;margin-bottom:20px">
+      <button type="button" class="primary" id="emailTab"
+        style="margin:0">Email</button>
+      <button type="button" class="primary" id="phoneTab"
+        style="margin:0;background:var(--panel2);color:var(--text)">
+        Phone OTP
+      </button>
+    </div>
+
+    <form id="authForm">
+      <label class="field" id="nameField">
+        <span>Your name</span>
+        <input id="authName" maxlength="40"
+          placeholder="e.g. Hari Nandan">
+      </label>
+
+      <div id="emailFields">
+        <label class="field">
+          <span>Email address</span>
+          <input id="authEmail" type="email"
+            placeholder="you@example.com">
+        </label>
+
+        <label class="field">
+          <span>Password</span>
+          <input id="authCode" type="password"
+            minlength="6" maxlength="72"
+            autocomplete="current-password"
+            placeholder="At least 6 characters">
+        </label>
+      </div>
+
+      <div id="phoneFields" class="hidden">
+        <label class="field">
+          <span>Phone number (with country code)</span>
+          <input id="phoneNumber" type="tel"
+            placeholder="+919876543210"
+            autocomplete="tel">
+        </label>
+
+        <button type="button" class="primary"
+          id="sendOtpBtn">Send OTP</button>
+
+        <label class="field">
+          <span>6-digit OTP</span>
+          <input id="otpCode" type="text"
+            inputmode="numeric" autocomplete="one-time-code"
+            maxlength="6" placeholder="Enter SMS code">
+        </label>
+
+        <button type="button" class="primary"
+          id="verifyOtpBtn">Verify OTP & Sign In</button>
+      </div>
+
+      <button class="primary" id="authSubmit" type="submit">
+        Sign in with email →
+      </button>
+    </form>
+
+    <div id="recaptcha-container"></div>
+
+    <div class="switch" id="authSwitch">
+      New here?
+      <button id="switchAuth" type="button">Create an account</button>
+    </div>
+
+    <div class="demo-note" id="authNotice">
+      Sign in securely with email or phone.
+    </div>
+  </div>
+</div>
+
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+  signOut,
+  RecaptchaVerifier,
+  signInWithPhoneNumber
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+import { getFirestore, collection, doc, getDoc, setDoc, addDoc, query, where, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+/*
+  SETUP:
+  1. Create a Firebase project at https://console.firebase.google.com/
+  2. Add a Web App and paste its config below.
+  3. Enable Authentication > Sign-in method > Email/Password.
+  4. Create a Cloud Firestore database and deploy firestore.rules from the
+     companion file before testing. Do not put Admin SDK credentials here.
+*/
+const firebaseConfig = {
+ apiKey: "AIzaSyDnnVmqZQocP592PXpzRDsLvu11WJB0pK8",
+  authDomain: "chather-3bd35.firebaseapp.com",
+  projectId: "chather-3bd35",
+  storageBucket: "chather-3bd35.firebasestorage.app",
+  messagingSenderId: "291608713545",
+  appId: "1:291608713545:web:38f37800fbe1ee62ede298"
+};
+const configured = Boolean(
+  firebaseConfig.apiKey &&
+  firebaseConfig.authDomain &&
+  firebaseConfig.projectId &&
+  firebaseConfig.appId
+);
+
+const $ = id => document.getElementById(id);
+const safe = s => String(s ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let app, auth, db, currentUser=null, activeChatId=null, activePartner=null;
+let stopChatList=null, stopMessages=null, signup=false, toastTimer;
+const chats = [];
+function toast(text){const t=$("toast");t.textContent=text;t.style.display="block";clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.style.display="none",3000)}
+function showAuth(message=""){ $("authModal").classList.remove("hidden"); $("authNotice").textContent=message || (configured ? "Your account is secured by Firebase Authentication." : "Setup required: add your Firebase web config to this file."); }
+function initials(name="User"){return name.split(/\s+/).slice(0,2).map(x=>x[0]||"").join("").toUpperCase()}
+function fmtTime(ts){try{return ts?.toDate ? ts.toDate().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}) : ""}catch{return ""}}
+function fmtDay(ts){try{return ts?.toDate ? ts.toDate().toLocaleDateString() : ""}catch{return ""}}
+function stopListeners(){if(stopChatList)stopChatList();if(stopMessages)stopMessages();stopChatList=stopMessages=null}
+function renderChats(filter=""){
+ const filtered=chats.filter(c=>(c.partnerName||"").toLowerCase().includes(filter.toLowerCase()));
+ $("chatList").innerHTML=filtered.map(c=>`<button class="chatrow ${c.id===activeChatId?"active":""}" data-id="${safe(c.id)}"><div class="avatar">${safe(initials(c.partnerName))}${c.online?'<span class="online"></span>':""}</div><span class="chatmeta"><span class="chathead"><span class="chatname">${safe(c.partnerName)}</span><span class="time">${safe(c.lastTime||"")}</span></span><span class="chathead"><span class="preview">${safe(c.lastMessage||"Start a conversation")}</span></span></span></button>`).join("");
+ $("chatCount").textContent=String(filtered.length).padStart(2,"0");
+ document.querySelectorAll(".chatrow").forEach(b=>b.onclick=()=>openChat(b.dataset.id));
+}
+function renderMessages(items=[]){
+ const partner=activePartner||{name:"Private conversation",email:""};
+ $("activeName").textContent=partner.name||partner.email||"Private conversation";
+ $("activeAvatar").textContent=initials(partner.name||partner.email);
+ $("activeStatus").textContent="🔒 Private chat";
+ $("messages").innerHTML='<div class="daylabel">MESSAGES ARE PRIVATE TO PARTICIPANTS</div>'+items.map(m=>{
+   const mine=m.senderId===currentUser?.uid;
+   return `<div class="msg ${mine?"mine":""}"><div class="bubble">${safe(m.text)}</div><div class="stamp">${safe(fmtTime(m.createdAt))} ${mine?'<span class="tick">✓</span>':""}</div></div>`;
+ }).join("");
+ $("messages").scrollTop=$("messages").scrollHeight;
+}
+function loadChats(){
+ if(!currentUser)return;
+ if(stopChatList)stopChatList();
+ const q=query(collection(db,"chats"),where("members","array-contains",currentUser.uid));
+ stopChatList=onSnapshot(q,async snap=>{
+   const next=[];
+   for(const item of snap.docs){
+     const data=item.data(); const partnerId=(data.members||[]).find(uid=>uid!==currentUser.uid);
+     if(!partnerId)continue;
+     let partnerName="Private contact", partnerEmail="";
+     try{const profile=await getDoc(doc(db,"users",partnerId));if(profile.exists()){partnerName=profile.data().displayName||partnerName;partnerEmail=profile.data().email||""}}catch(e){}
+     next.push({id:item.id,partnerId,partnerName,partnerEmail,lastMessage:data.lastMessage||"",lastTime:data.updatedAt?.toDate?.().toLocaleDateString?.()||""});
+   }
+   chats.splice(0,chats.length,...next);renderChats($("search").value);
+   if(activeChatId&&!chats.some(c=>c.id===activeChatId)){activeChatId=null;activePartner=null;if(stopMessages)stopMessages();$("messages").innerHTML='<div class="empty"><h2>Choose a conversation</h2><p>Select an approved contact to start chatting.</p></div>'}
+ },err=>toast("Could not load chats: "+err.message));
+}
+async function openChat(id){
+ const c=chats.find(x=>x.id===id);if(!c)return;
+ activeChatId=c.id;activePartner={name:c.partnerName,email:c.partnerEmail,uid:c.partnerId};renderChats($("search").value);$("shell").classList.add("showchat");
+ if(stopMessages)stopMessages();
+ const q=query(collection(db,"chats",id,"messages"),orderBy("createdAt","asc"));
+ stopMessages=onSnapshot(q,snap=>renderMessages(snap.docs.map(d=>({id:d.id,...d.data()}))),err=>toast("Messages unavailable: "+err.message));
+}
+async function startConversation(){
+ if(!currentUser)return;
+ const email=prompt("Enter the exact email address of the person you want to chat with:");
+ if(!email)return;
+ const targetEmail=email.trim().toLowerCase();
+ if(targetEmail===currentUser.email.toLowerCase()){toast("You cannot start a chat with yourself.");return}
+ try{
+   const q=query(collection(db,"users"),where("email","==",targetEmail));
+   const {getDocs}=await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js");
+   const results=await getDocs(q);
+   if(results.empty){toast("No registered user found with that email.");return}
+   const target=results.docs[0];
+   const existing=chats.find(c=>c.partnerId===target.id);
+   if(existing){openChat(existing.id);return}
+   const members=[currentUser.uid,target.id].sort();
+   const chatId=members.join("_");
+   await setDoc(doc(db,"chats",chatId),{members,createdBy:currentUser.uid,createdAt:serverTimestamp(),updatedAt:serverTimestamp(),lastMessage:""});
+   toast("Private conversation created."); 
+ }catch(e){toast("Could not create conversation: "+e.message)}
+}
+async function sendMessage(e){
+ e.preventDefault();const input=$("messageInput"),text=input.value.trim();
+ if(!text||!currentUser||!activeChatId)return;
+ if(text.length>2000){toast("Messages must be 2,000 characters or fewer.");return}
+ input.value="";
+ try{
+   await addDoc(collection(db,"chats",activeChatId,"messages"),{text,senderId:currentUser.uid,createdAt:serverTimestamp()});
+   await setDoc(doc(db,"chats",activeChatId),{lastMessage:text,updatedAt:serverTimestamp()},{merge:true});
+ }catch(err){input.value=text;toast("Message not sent: "+err.message)}
+}
+$("search").addEventListener("input",e=>renderChats(e.target.value));
+$("messageForm").addEventListener("submit",sendMessage);
+$("backBtn").onclick=()=>$("shell").classList.remove("showchat");
+$("newChat").onclick=startConversation;
+$("infoBtn").onclick=()=>toast("This chat is restricted to its two members by Firestore rules.");
+$("moreBtn").onclick=()=>toast("More tools can be added later.");
+$("attachBtn").onclick=()=>toast("File attachments are not enabled yet.");
+
+let authMethod = "email";
+let confirmationResult = null;
+let recaptchaVerifier = null;
+
+function setAuthMethod(method) {
+  authMethod = method;
+  const isPhone = method === "phone";
+
+  $("emailFields").classList.toggle("hidden", isPhone);
+  $("phoneFields").classList.toggle("hidden", !isPhone);
+  $("authSubmit").classList.toggle("hidden", isPhone);
+  $("authSwitch").classList.toggle("hidden", isPhone);
+  $("nameField").classList.toggle("hidden", isPhone || !signup);
+
+  $("authName").required = !isPhone && signup;
+  $("authEmail").required = !isPhone;
+  $("authCode").required = !isPhone;
+
+  $("emailTab").style.background = isPhone
+    ? "var(--panel2)" : "var(--green)";
+  $("emailTab").style.color = isPhone
+    ? "var(--text)" : "white";
+
+  $("phoneTab").style.background = isPhone
+    ? "var(--green)" : "var(--panel2)";
+  $("phoneTab").style.color = isPhone
+    ? "white" : "var(--text)";
+
+  $("authTitle").textContent = isPhone
+    ? "Sign in with your phone"
+    : signup ? "Make this space yours." : "A quieter kind of connection.";
+
+  $("authSubtitle").textContent = isPhone
+    ? "We will send a verification code by SMS."
+    : signup
+      ? "Create your account with your email and a strong password."
+      : "Sign in to your private space and pick up where you left off.";
+
+  $("authSubmit").textContent = signup
+    ? "Create account →" : "Enter private space →";
+
+  $("switchAuth").textContent = signup
+    ? "Back to sign in" : "Create an account";
+
+  $("authNotice").textContent =
+    "Use your email and password or verify your phone number.";
+}
+
+$("emailTab").onclick = () => setAuthMethod("email");
+$("phoneTab").onclick = () => setAuthMethod("phone");
+
+$("switchAuth").onclick = () => {
+  signup = !signup;
+  setAuthMethod("email");
+};
+
+$("authForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  if (!configured || !auth || !db) {
+    showAuth("Firebase setup is incomplete. Check your Firebase configuration.");
+    return;
+  }
+
+  if (authMethod !== "email") return;
+
+  const email = $("authEmail").value.trim().toLowerCase();
+  const password = $("authCode").value;
+  const name = $("authName").value.trim();
+
+  try {
+    if (signup) {
+      if (!name) {
+        showAuth("Please enter your name.");
+        return;
+      }
+
+      const cred = await createUserWithEmailAndPassword(
+        auth, email, password
+      );
+
+      await updateProfile(cred.user, { displayName: name });
+
+      await setDoc(doc(db, "users", cred.user.uid), {
+        displayName: name,
+        email,
+        phoneNumber: "",
+        createdAt: serverTimestamp()
+      });
+    } else {
+      await signInWithEmailAndPassword(auth, email, password);
+    }
+  } catch (err) {
+    showAuth(
+      err.code === "auth/email-already-in-use"
+        ? "This email already has an account. Please sign in."
+        : err.code === "auth/invalid-credential"
+          ? "Email or password is incorrect."
+          : err.message
+    );
+  }
+});
+
+$("sendOtpBtn").onclick = async () => {
+  if (!configured || !auth) {
+    showAuth("Firebase configuration is incomplete.");
+    return;
+  }
+
+  const phone = $("phoneNumber").value.trim();
+
+  if (!/^\+[1-9]\d{7,14}$/.test(phone)) {
+    showAuth("Enter a valid phone number with country code, e.g. +919876543210.");
+    return;
+  }
+
+  try {
+    $("sendOtpBtn").disabled = true;
+
+    if (!recaptchaVerifier) {
+      recaptchaVerifier = new RecaptchaVerifier(
+        auth,
+        "recaptcha-container",
+        { size: "normal" }
+      );
+    }
+
+    await recaptchaVerifier.render();
+
+    confirmationResult = await signInWithPhoneNumber(
+      auth,
+      phone,
+      recaptchaVerifier
+    );
+
+    showAuth("OTP sent. Check your SMS and enter the 6-digit code.");
+  } catch (err) {
+    showAuth("Could not send OTP: " + err.message);
+
+    if (recaptchaVerifier) {
+      try {
+        await recaptchaVerifier.clear();
+      } catch (_) {}
+
+      recaptchaVerifier = null;
+    }
+  } finally {
+    $("sendOtpBtn").disabled = false;
+  }
+};
+
+$("verifyOtpBtn").onclick = async () => {
+  const code = $("otpCode").value.trim();
+
+  if (!confirmationResult) {
+    showAuth("Please click Send OTP first.");
+    return;
+  }
+
+  if (!/^\d{6}$/.test(code)) {
+    showAuth("Enter the 6-digit OTP.");
+    return;
+  }
+
+  try {
+    const result = await confirmationResult.confirm(code);
+    const user = result.user;
+    const userRef = doc(db, "users", user.uid);
+    const profile = await getDoc(userRef);
+
+    if (!profile.exists()) {
+      const name = $("authName").value.trim() || "Chather User";
+
+      await updateProfile(user, { displayName: name });
+
+      await setDoc(userRef, {
+        displayName: name,
+        email: user.email || "",
+        phoneNumber: user.phoneNumber || "",
+        createdAt: serverTimestamp()
+      });
+    }
+
+    confirmationResult = null;
+    showAuth("Phone verified successfully.");
+  } catch (err) {
+    showAuth(
+      err.code === "auth/invalid-verification-code"
+        ? "Incorrect OTP. Check the code and try again."
+        : "Phone verification failed: " + err.message
+    );
+  }
+};
+
+$("authForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ if(!configured){showAuth("First paste your Firebase web app config into firebaseConfig in chather_firebase.html, then reload.");return}
+ const email=$("authEmail").value.trim().toLowerCase(),password=$("authCode").value,name=$("authName").value.trim();
+ try{
+  if(signup){
+   if(!name){showAuth("Please enter your name to create an account.");return}
+   const cred=await createUserWithEmailAndPassword(auth,email,password);
+   await updateProfile(cred.user,{displayName:name});
+   await setDoc(doc(db,"users",cred.user.uid),{displayName:name,email,createdAt:serverTimestamp()});
+  }else{await signInWithEmailAndPassword(auth,email,password)}
+ }catch(err){showAuth(err.code==="auth/email-already-in-use"?"That email already has an account. Sign in instead.":err.code==="auth/invalid-credential"?"Email or password is incorrect.":err.message)}
+});
+$("accountBtn").onclick=async()=>{if(auth&&currentUser){if(confirm("Sign out of Chather?")){stopListeners();await signOut(auth)}}};
+$("authName").required=false;$("authName").classList.add("hidden");$("authName").previousElementSibling.classList.add("hidden");
+$("authTitle").textContent="A quieter kind of connection.";
+$("authSubtitle").textContent="Sign in to your private space and pick up where you left off.";
+if(configured){
+ try{
+  app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);
+  onAuthStateChanged(auth,async user=>{
+   currentUser=user;
+   if(!user){stopListeners();showAuth();return}
+   $("authModal").classList.add("hidden");$("userName").textContent=user.displayName||user.email||"Private account";
+   loadChats();
+   $("messages").innerHTML='<div class="empty"><div class="logo">✦</div><h2>Your private space.</h2><p>Start a conversation by inviting the person using their registered email address.</p><button class="primary" id="startFirstChat">Start a conversation</button></div>';
+   setTimeout(()=>{const b=$("startFirstChat");if(b)b.onclick=startConversation},0);
+  });
+ }catch(e){showAuth("Firebase initialization failed: "+e.message)}
+}else{showAuth("Setup required: paste your Firebase web app config into firebaseConfig, then enable Email/Password Auth and Firestore.")}
+</script>
+</body>
+</html>
