@@ -439,9 +439,15 @@ $("verifyOtpBtn").onclick = async () => {
 
 
 $("accountBtn").onclick=async()=>{if(auth&&currentUser){if(confirm("Sign out of Chather?")){stopListeners();await signOut(auth)}}};
+
 setAuthMethod("email");
- try{
-  app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);
+
+if (configured) {
+  try {
+    app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    db = getFirestore(app);
+
   onAuthStateChanged(auth,async user=>{
    currentUser=user;
    if(!user){stopListeners();showAuth();return}
