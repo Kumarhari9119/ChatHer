@@ -426,7 +426,8 @@ $("verifyOtpBtn").onclick = async () => {
     }
 
     confirmationResult = null;
-    showAuth("Phone verified successfully.");
+    $("authModal").classList.add("hidden");
+    toast("Phone verified successfully.");
   } catch (err) {
     showAuth(
       err.code === "auth/invalid-verification-code"
@@ -436,24 +437,9 @@ $("verifyOtpBtn").onclick = async () => {
   }
 };
 
-$("authForm").addEventListener("submit",async e=>{
- e.preventDefault();
- if(!configured){showAuth("First paste your Firebase web app config into firebaseConfig in chather_firebase.html, then reload.");return}
- const email=$("authEmail").value.trim().toLowerCase(),password=$("authCode").value,name=$("authName").value.trim();
- try{
-  if(signup){
-   if(!name){showAuth("Please enter your name to create an account.");return}
-   const cred=await createUserWithEmailAndPassword(auth,email,password);
-   await updateProfile(cred.user,{displayName:name});
-   await setDoc(doc(db,"users",cred.user.uid),{displayName:name,email,createdAt:serverTimestamp()});
-  }else{await signInWithEmailAndPassword(auth,email,password)}
- }catch(err){showAuth(err.code==="auth/email-already-in-use"?"That email already has an account. Sign in instead.":err.code==="auth/invalid-credential"?"Email or password is incorrect.":err.message)}
-});
+
 $("accountBtn").onclick=async()=>{if(auth&&currentUser){if(confirm("Sign out of Chather?")){stopListeners();await signOut(auth)}}};
-$("authName").required=false;$("authName").classList.add("hidden");$("authName").previousElementSibling.classList.add("hidden");
-$("authTitle").textContent="A quieter kind of connection.";
-$("authSubtitle").textContent="Sign in to your private space and pick up where you left off.";
-if(configured){
+setAuthMethod("email");
  try{
   app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);
   onAuthStateChanged(auth,async user=>{
