@@ -402,6 +402,32 @@ $("infoBtn").onclick=()=>toast("This chat is restricted to its two members by Fi
 $("moreBtn").onclick=()=>toast("More tools can be added later.");
 $("attachBtn").onclick=()=>toast("File attachments are not enabled yet.");
 
+$("adminPanelBtn").onclick = () => {
+  if (!currentUser || currentUser.uid !== ADMIN_UID) {
+    toast("Admin access only.");
+    return;
+  }
+
+  $("adminEmail").value = "";
+  $("adminResults").textContent = "";
+  $("adminModal").classList.remove("hidden");
+  $("adminEmail").focus();
+};
+
+$("adminCloseBtn").onclick = () => {
+  $("adminModal").classList.add("hidden");
+};
+
+$("adminSearchBtn").onclick = adminSearchUser;
+
+$("adminEmail").addEventListener("keydown", event => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    adminSearchUser();
+  }
+});
+
+
 let authMethod = "email";
 let confirmationResult = null;
 let recaptchaVerifier = null;
