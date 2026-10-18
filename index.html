@@ -266,8 +266,6 @@ async function startConversation(){
    toast("Private conversation created."); 
  }catch(e){toast("Could not create conversation: "+e.message)}
 }
-
-
 async function adminSearchUser() {
   if (!currentUser || currentUser.uid !== ADMIN_UID) {
     toast("Admin access only.");
@@ -333,6 +331,58 @@ async function adminSearchUser() {
 }
 
 
+async function adminStartChat(targetId, name, email) {
+  if (!currentUser || currentUser.uid !== ADMIN_UID) {
+    toast("Admin access only.");
+    return;
+  }
+
+  if (targetId === currentUser.uid) {
+    toast("You cannot start a chat with yourself.");
+    return;
+  }
+
+  try {
+    const members = [currentUser.uid, targetId].sort();
+    const chatId = members.join("_");
+
+    const chatRef = doc(db, "chats", chatId);
+    const chatSnap = await getDoc(chatRef);
+
+    if (!chatSnap.exists()) {
+      await setDoc(chatRef, {
+        members,
+        createdBy: currentUser.uid,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        lastMessage: ""
+      });
+    }
+
+    const existingChat = chats.find(chat => chat.id === chatId);
+
+    if (!existingChat) {
+      chats.push({
+        id: chatId,
+        partnerId: targetId,
+        partnerName: name,
+        partnerEmail: email,
+        lastMessage: "",
+        lastTime: ""
+      });
+    }
+
+    $("adminModal").classList.add("hidden");
+    renderChats($("search").value);
+    openChat(chatId);
+
+    toast("Chat opened successfully.");
+
+  } catch (error) {
+    console.error("Admin start chat failed:", error);
+    toast("Could not open chat: " + error.message);
+  }
+}
 
 async function sendMessage(e){
  e.preventDefault();const input=$("messageInput"),text=input.value.trim();
