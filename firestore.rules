@@ -4,6 +4,12 @@ service cloud.firestore {
     function signedIn() {
       return request.auth != null;
     }
+
+function isAdmin() {
+  return request.auth != null
+    && request.auth.uid == "sCI84D7jSmPtdy9J4DPmATqTW2l2";
+}
+
     function isChatMember(chatId) {
       return signedIn()
         && exists(/databases/$(database)/documents/chats/$(chatId))
