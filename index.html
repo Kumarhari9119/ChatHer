@@ -492,6 +492,10 @@ if (configured) {
 
   onAuthStateChanged(auth,async user=>{
    currentUser=user;
+   $("adminPanelBtn").classList.toggle(
+  "hidden",
+  !user || user.uid !== ADMIN_UID
+);
    if(!user){stopListeners();showAuth();return}
    $("authModal").classList.add("hidden");$("userName").textContent=user.displayName||user.email||"Private account";
    loadChats();
