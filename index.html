@@ -266,6 +266,74 @@ async function startConversation(){
    toast("Private conversation created."); 
  }catch(e){toast("Could not create conversation: "+e.message)}
 }
+
+
+async function adminSearchUser() {
+  if (!currentUser || currentUser.uid !== ADMIN_UID) {
+    toast("Admin access only.");
+    return;
+  }
+
+  const email = $("adminEmail").value.trim().toLowerCase();
+
+  if (!email) {
+    $("adminResults").textContent = "Please enter an email address.";
+    return;
+  }
+
+  $("adminResults").textContent = "Searching...";
+
+  try {
+    const q = query(
+      collection(db, "users"),
+      where("email", "==", email)
+    );
+
+    const results = await getDocs(q);
+
+    if (results.empty) {
+      $("adminResults").textContent =
+        "No registered profile found for this email.";
+      return;
+    }
+
+    const target = results.docs[0];
+    const profile = target.data();
+    const name = profile.displayName || profile.email || "ChatHer User";
+
+    $("adminResults").replaceChildren();
+
+    const resultBox = document.createElement("div");
+    const nameText = document.createElement("p");
+    const emailText = document.createElement("p");
+    const startBtn = document.createElement("button");
+
+    nameText.textContent = "Name: " + name;
+    emailText.textContent = "Email: " + (profile.email || email);
+    startBtn.textContent = "Start Chat";
+    startBtn.type = "button";
+    startBtn.className = "primary";
+
+    startBtn.onclick = () => {
+      adminStartChat(
+        target.id,
+        name,
+        profile.email || email
+      );
+    };
+
+    resultBox.append(nameText, emailText, startBtn);
+    $("adminResults").appendChild(resultBox);
+
+  } catch (error) {
+    console.error("Admin user search failed:", error);
+    $("adminResults").textContent =
+      "Search failed: " + error.message;
+  }
+}
+
+
+
 async function sendMessage(e){
  e.preventDefault();const input=$("messageInput"),text=input.value.trim();
  if(!text||!currentUser||!activeChatId)return;
