@@ -195,7 +195,10 @@ function loadChats(){
    }
    chats.splice(0,chats.length,...next);renderChats($("search").value);
    if(activeChatId&&!chats.some(c=>c.id===activeChatId)){activeChatId=null;activePartner=null;if(stopMessages)stopMessages();$("messages").innerHTML='<div class="empty"><h2>Choose a conversation</h2><p>Select an approved contact to start chatting.</p></div>'}
- },err=>toast("Could not load chats: "+err.message));
+ }, err => {
+  console.error("ChatHer loadChats Firestore error:", err.code, err.message, err);
+  toast("Could not load chats: " + err.code + " — " + err.message);
+});
 }
 async function openChat(id){
  const c=chats.find(x=>x.id===id);if(!c)return;
