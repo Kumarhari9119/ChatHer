@@ -31,7 +31,43 @@
   overflow-x: hidden;
   padding: 0 10px 14px;
 }
-.chatrow{width:100%;display:flex;gap:12px;align-items:center;padding:12px;border:0;background:transparent;color:inherit;text-align:left;border-radius:14px}.chatrow:hover{background:var(--panel2)}.chatrow.active{background:var(--green2)}.avatar{height:46px;width:46px;flex:0 0 46px;border-radius:50%;display:grid;place-items:center;font-weight:750;color:#fff;background:linear-gradient(145deg,#4d9c7b,#236b54);position:relative}.avatar.pink{background:linear-gradient(145deg,#d79ba7,#a95f7a)}.avatar.blue{background:linear-gradient(145deg,#7fa9db,#496b9d)}.avatar.gold{background:linear-gradient(145deg,#d8b46c,#9b7740)}.online{position:absolute;right:0;bottom:1px;width:12px;height:12px;background:#43c98c;border:2px solid var(--panel);border-radius:50%}.chatmeta{min-width:0;flex:1}.chathead{display:flex;justify-content:space-between;gap:6px;align-items:center}.chatname{font-weight:680;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.time{font-size:11px;color:var(--muted);white-space:nowrap}.preview{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}.badge{background:var(--green);color:white;border-radius:20px;font-size:10px;padding:2px 6px}.sidefoot{margin-top:auto;padding:16px 20px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px}.sidefoot .avatar{height:34px;width:34px;flex-basis:34px;font-size:12px}.usertext{flex:1;min-width:0}.usertext strong{display:block;font-size:12px}.usertext span{font-size:11px;color:var(--muted)}.main{min-width:0;display:flex;flex-direction:column;position:relative;background:var(--panel)}.topbar{height:83px;flex:0 0 83px;padding:16px 25px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:13px}.topbar .avatar{height:44px;width:44px;flex-basis:44px}.person{flex:1;min-width:0}.person strong{display:block;font-size:15px}.person span{font-size:12px;color:var(--green)}.topactions{display:flex;gap:5px}
+.chatrow{width:100%;display:flex;gap:12px;align-items:center;padding:12px;border:0;background:transparent;color:inherit;text-align:left;border-radius:14px}.chatrow:hover{background:var(--panel2)}.chatrow.active{background:var(--green2)}.avatar{height:46px;width:46px;flex:0 0 46px;border-radius:50%;display:grid;place-items:center;font-weight:750;color:#fff;background:linear-gradient(145deg,#4d9c7b,#236b54);position:relative}.avatar.pink{background:linear-gradient(145deg,#d79ba7,#a95f7a)}.avatar.blue{background:linear-gradient(145deg,#7fa9db,#496b9d)}.avatar.gold{background:linear-gradient(145deg,#d8b46c,#9b7740)}.online{position:absolute;right:0;bottom:1px;width:12px;height:12px;background:#43c98c;border:2px solid var(--panel);border-radius:50%}.chatmeta{min-width:0;flex:1}.chathead{display:flex;justify-content:space-between;gap:6px;align-items:center}.chatname{font-weight:680;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.time{font-size:11px;color:var(--muted);white-space:nowrap}.preview{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}.badge{background:var(--green);color:white;border-radius:20px;font-size:10px;padding:2px 6px}.sidefoot{margin-top:auto;padding:16px 20px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px}.sidefoot .avatar{height:34px;width:34px;flex-basis:34px;font-size:12px}.usertext{flex:1;min-width:0}.usertext strong{display:block;font-size:12px}.usertext span{font-size:11px;color:var(--muted)}.main{min-width:0;display:flex;flex-direction:column;position:relative;background:var(--panel)}.topbar{height:83px;flex:0 0 83px;padding:16px 25px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:13px}.topbar .avatar{height:44px;width:44px;flex-basis:44px}.person{flex:1;min-width:0}.person strong{display:block;font-size:15px}.person span{font-size:12px;color:var(--green)}.topactions{display:flex;gap:5px} .more-menu {
+  position: absolute;
+  right: 20px;
+  top: 68px;
+  z-index: 10;
+  min-width: 180px;
+  padding: 6px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.more-menu button {
+  display: block;
+  width: 100%;
+  padding: 11px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+}
+
+.more-menu button:hover {
+  background: var(--panel2);
+}
+
+.more-menu .danger {
+  color: #dc4c4c;
+}
+
+.message-link {
+  color: var(--green);
+  text-decoration: underline;
+  overflow-wrap: anywhere;
+}
 
 .conversation {
   flex: 1 1 0;
@@ -65,7 +101,7 @@
 <div class="app">
 <div class="shell" id="shell">
 <aside class="sidebar">
- <div class="brandbar"><div class="brand"><span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 11.5a7.5 7.5 0 0 1-11.1 6.6L4 19l.9-4.1A7.5 7.5 0 1 1 20 11.5Z"/><path d="M8.5 9.5c.6 2 2 3.4 4 4"/></svg></span>chather<span style="color:var(--green)">.</span></div>
+ <div class="brandbar"><div class="brand"><span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 11.5a7.5 7.5 0 0 1-11.1 6.6L4 19l.9-4.1A7.5 7.5 0 1 1 20 11.5Z"/><path d="M8.5 9.5c.6 2 2 3.4 4 4"/></svg></span>ChatHer<span style="color:var(--green)">.</span></div>
  
  
  <button class="iconbtn" id="newChat" title="New conversation"><svg width="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg></button>
@@ -82,8 +118,13 @@
 </aside>
 <main class="main">
  <header class="topbar"><button class="iconbtn mobileback" id="backBtn" aria-label="Back to chats"><svg width="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></button><div class="avatar" id="activeAvatar">A<span class="online"></span></div><div class="person"><strong id="activeName">Aarav Sharma</strong><span id="activeStatus">● Online now</span></div><div class="topactions"><button class="iconbtn" id="infoBtn" title="Conversation info"><svg width="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7h.01"/></svg></button><button class="iconbtn" id="moreBtn" title="More options"><svg width="19" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button></div></header>
- <section class="conversation" id="messages" aria-live="polite"></section>
- <div class="composer-wrap"><div class="hint">🔒 Your conversations should be private, always.</div><form class="composer" id="messageForm"><button type="button" class="iconbtn" id="attachBtn" title="Attach (demo)"><svg width="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m20.5 11.5-8.7 8.7a5 5 0 0 1-7.1-7.1l9.2-9.2a3.3 3.3 0 0 1 4.7 4.7l-9.2 9.2a1.7 1.7 0 0 1-2.4-2.4l8.3-8.3"/></svg></button><input id="messageInput" autocomplete="off" placeholder="Write a message…" aria-label="Message" maxlength="2000"><button class="send" type="submit" aria-label="Send message"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></button></form></div>
+   </header>
+
+<div class="more-menu hidden" id="moreMenu">
+  <button type="button" id="clearChatBtn">Clear Chat</button>
+  <button type="button" id="deleteChatBtn" class="danger">Delete Chat</button>
+</div>
+<div class="composer-wrap"><div class="hint">🔒 Your conversations should be private, always.</div><form class="composer" id="messageForm"><button type="button" class="iconbtn" id="attachBtn" title="Attach (demo)"><svg width="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m20.5 11.5-8.7 8.7a5 5 0 0 1-7.1-7.1l9.2-9.2a3.3 3.3 0 0 1 4.7 4.7l-9.2 9.2a1.7 1.7 0 0 1-2.4-2.4l8.3-8.3"/></svg></button><input id="messageInput" autocomplete="off" placeholder="Write a message…" aria-label="Message" maxlength="2000"><button class="send" type="submit" aria-label="Send message"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></button></form></div>
  <div class="toast" id="toast" role="status"></div>
 </main>
 </div></div>
@@ -215,7 +256,7 @@ import {
   signInWithPhoneNumber
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
-import { getFirestore, collection, doc, getDoc, getDocs, setDoc, addDoc, query, where, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+import { getFirestore, collection, doc, getDoc, getDocs, setDoc, addDoc, query, where, orderBy, onSnapshot, serverTimestamp, deleteDoc,  } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
 
 /*
@@ -249,7 +290,16 @@ const chats = [];
 const ADMIN_UID = "sCI84D7jSmPtdy9J4DPmATqTW2l2";
 function toast(text){const t=$("toast");t.textContent=text;t.style.display="block";clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.style.display="none",3000)}
 function showAuth(message=""){ $("authModal").classList.remove("hidden"); $("authNotice").textContent=message || (configured ? "Your account is secured by Firebase Authentication." : "Setup required: add your Firebase web config to this file."); }
-function initials(name="User"){return name.split(/\s+/).slice(0,2).map(x=>x[0]||"").join("").toUpperCase()}
+function initials(name="User"){return name.split(/\s+/).slice(0,2).map(x=>x[0]||"").join("").toUpperCase()} 
+  function formatMessageText(text = "") {
+  return safe(text).replace(
+    /https?:\/\/[^\s<]+/g,
+    url => `<a class="message-link"
+      href="${url}"
+      target="_blank"
+      rel="noopener noreferrer">${url}</a>`
+  );
+}
 function fmtTime(ts){try{return ts?.toDate ? ts.toDate().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}) : ""}catch{return ""}}
 function fmtDay(ts){try{return ts?.toDate ? ts.toDate().toLocaleDateString() : ""}catch{return ""}}
 function stopListeners(){if(stopChatList)stopChatList();if(stopMessages)stopMessages();stopChatList=stopMessages=null}
@@ -445,12 +495,97 @@ async function sendMessage(e){
    await setDoc(doc(db,"chats",activeChatId),{lastMessage:text,updatedAt:serverTimestamp()},{merge:true});
  }catch(err){input.value=text;toast("Message not sent: "+err.message)}
 }
+
+
+async function removeAllChatMessages(chatId) {
+  const messagesRef = collection(db, "chats", chatId, "messages");
+  const snapshot = await getDocs(messagesRef);
+
+  for (const messageDoc of snapshot.docs) {
+    await deleteDoc(messageDoc.ref);
+  }
+}
+
+$("moreBtn").onclick = () => {
+  if (!activeChatId) {
+    toast("Pehle ek chat open karo.");
+    return;
+  }
+
+  $("moreMenu").classList.toggle("hidden");
+};
+
+$("clearChatBtn").onclick = async () => {
+  $("moreMenu").classList.add("hidden");
+
+  if (!currentUser || !activeChatId) {
+    toast("Pehle ek chat open karo.");
+    return;
+  }
+
+  const chatId = activeChatId;
+
+  if (!confirm("Clear Chat? Is conversation ke saare messages delete ho jayenge.")) {
+    return;
+  }
+
+  try {
+    await removeAllChatMessages(chatId);
+
+    await setDoc(doc(db, "chats", chatId), {
+      lastMessage: "",
+      updatedAt: serverTimestamp()
+    }, { merge: true });
+
+    toast("Chat ke messages clear ho gaye.");
+  } catch (error) {
+    console.error("Clear Chat failed:", error);
+    toast("Clear Chat failed: " + error.message);
+  }
+};
+
+$("deleteChatBtn").onclick = async () => {
+  $("moreMenu").classList.add("hidden");
+
+  if (!currentUser || !activeChatId) {
+    toast("Pehle ek chat open karo.");
+    return;
+  }
+
+  const chatId = activeChatId;
+
+  if (!confirm("Delete Chat? Conversation aur uske saare messages dono participants ke liye remove ho jayenge.")) {
+    return;
+  }
+
+  try {
+    await removeAllChatMessages(chatId);
+    await deleteDoc(doc(db, "chats", chatId));
+
+    if (stopMessages) {
+      stopMessages();
+      stopMessages = null;
+    }
+
+    activeChatId = null;
+    activePartner = null;
+    $("shell").classList.remove("showchat");
+    $("messages").innerHTML =
+      '<div class="empty"><h2>Chat deleted</h2><p>Choose another conversation.</p></div>';
+
+    toast("Chat deleted.");
+  } catch (error) {
+    console.error("Delete Chat failed:", error);
+    toast("Delete Chat failed: " + error.message);
+  }
+};
+  
 $("search").addEventListener("input",e=>renderChats(e.target.value));
 $("messageForm").addEventListener("submit",sendMessage);
 $("backBtn").onclick=()=>$("shell").classList.remove("showchat");
 $("newChat").onclick=startConversation;
 $("infoBtn").onclick=()=>toast("This chat is restricted to its two members by Firestore rules.");
-$("moreBtn").onclick=()=>toast("More tools can be added later.");
+ 
 $("attachBtn").onclick=()=>toast("File attachments are not enabled yet.");
 
 $("adminPanelBtn").onclick = () => {
