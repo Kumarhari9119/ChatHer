@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ChatHer — Private chat</title>
 <style>
@@ -31,7 +30,7 @@
   overflow-x: hidden;
   padding: 0 10px 14px;
 }
-.chatrow{width:100%;display:flex;gap:12px;align-items:center;padding:12px;border:0;background:transparent;color:inherit;text-align:left;border-radius:14px}.chatrow:hover{background:var(--panel2)}.chatrow.active{background:var(--green2)}.avatar{height:46px;width:46px;flex:0 0 46px;border-radius:50%;display:grid;place-items:center;font-weight:750;color:#fff;background:linear-gradient(145deg,#4d9c7b,#236b54);position:relative}.avatar.pink{background:linear-gradient(145deg,#d79ba7,#a95f7a)}.avatar.blue{background:linear-gradient(145deg,#7fa9db,#496b9d)}.avatar.gold{background:linear-gradient(145deg,#d8b46c,#9b7740)}.online{position:absolute;right:0;bottom:1px;width:12px;height:12px;background:#43c98c;border:2px solid var(--panel);border-radius:50%}.chatmeta{min-width:0;flex:1}.chathead{display:flex;justify-content:space-between;gap:6px;align-items:center}.chatname{font-weight:680;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.time{font-size:11px;color:var(--muted);white-space:nowrap}.preview{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}.badge{background:var(--green);color:white;border-radius:20px;font-size:10px;padding:2px 6px}.sidefoot{margin-top:auto;padding:16px 20px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px}.sidefoot .avatar{height:34px;width:34px;flex-basis:34px;font-size:12px}.usertext{flex:1;min-width:0}.usertext strong{display:block;font-size:12px}.usertext span{font-size:11px;color:var(--muted)}.main{   min-width:0;  overflow:hidden;   display:flex;   flex-direction:column;   position:relative;   background:var(--panel); }.topbar{height:83px;flex:0 0 83px;padding:16px 25px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:13px}.topbar .avatar{height:44px;width:44px;flex-basis:44px}.person{flex:1;min-width:0}.person strong{display:block;font-size:15px}.person span{font-size:12px;color:var(--green)}.topactions{display:flex;gap:5px} .more-menu {
+.chatrow{width:100%;display:flex;gap:12px;align-items:center;padding:12px;border:0;background:transparent;color:inherit;text-align:left;border-radius:14px}.chatrow:hover{background:var(--panel2)}.chatrow.active{background:var(--green2)}.avatar{height:46px;width:46px;flex:0 0 46px;border-radius:50%;display:grid;place-items:center;font-weight:750;color:#fff;background:linear-gradient(145deg,#4d9c7b,#236b54);position:relative}.avatar.pink{background:linear-gradient(145deg,#d79ba7,#a95f7a)}.avatar.blue{background:linear-gradient(145deg,#7fa9db,#496b9d)}.avatar.gold{background:linear-gradient(145deg,#d8b46c,#9b7740)}.online{position:absolute;right:0;bottom:1px;width:12px;height:12px;background:#43c98c;border:2px solid var(--panel);border-radius:50%}.chatmeta{min-width:0;flex:1}.chathead{display:flex;justify-content:space-between;gap:6px;align-items:center}.chatname{font-weight:680;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.time{font-size:11px;color:var(--muted);white-space:nowrap}.preview{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}.badge{background:var(--green);color:white;border-radius:20px;font-size:10px;padding:2px 6px}.sidefoot{margin-top:auto;padding:16px 20px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px}.sidefoot .avatar{height:34px;width:34px;flex-basis:34px;font-size:12px}.usertext{flex:1;min-width:0}.usertext strong{display:block;font-size:12px}.usertext span{font-size:11px;color:var(--muted)}.main{   min-width:0; min-height:0;  overflow:hidden;   display:flex;   flex-direction:column;   position:relative;   background:var(--panel); }.topbar{height:83px;flex:0 0 83px;padding:16px 25px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:13px}.topbar .avatar{height:44px;width:44px;flex-basis:44px}.person{flex:1;min-width:0}.person strong{display:block;font-size:15px}.person span{font-size:12px;color:var(--green)}.topactions{display:flex;gap:5px} .more-menu {
   position: absolute;
   right: 20px;
   top: 68px;
@@ -124,7 +123,28 @@
   <button type="button" id="clearChatBtn">Clear Chat</button>
   <button type="button" id="deleteChatBtn" class="danger">Delete Chat</button>
 </div>
-<div class="composer-wrap"><div class="hint">🔒 Your conversations should be private, always.</div><form class="composer" id="messageForm"><button type="button" class="iconbtn" id="attachBtn" title="Attach (demo)"><svg width="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m20.5 11.5-8.7 8.7a5 5 0 0 1-7.1-7.1l9.2-9.2a3.3 3.3 0 0 1 4.7 4.7l-9.2 9.2a1.7 1.7 0 0 1-2.4-2.4l8.3-8.3"/></svg></button><input id="messageInput" autocomplete="off" placeholder="Write a message…" aria-label="Message" maxlength="2000"><button class="send" type="submit" aria-label="Send message"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></button></form></div>
+
+<section class="conversation" id="messages" aria-live="polite">
+  <div class="empty">
+    <h2>Choose a conversation</h2>
+    <p>Select a contact to view messages.</p>
+  </div>
+<div class="composer-wrap"><div class="hint">🔒 Your conversations should be private, always.</div>
+  <form class="composer" id="messageForm">
+    <button type="button" class="iconbtn" id="attachBtn" title="Attach (demo)">
+      
+      <svg width="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="m20.5 11.5-8.7 8.7a5 5 0 0 1-7.1-7.1l9.2-9.2a3.3 3.3 0 0 1 4.7 4.7l-9.2 9.2a1.7 1.7 0 0 1-2.4-2.4l8.3-8.3"/></svg>
+    </button>
+    <input id="messageInput" autocomplete="off" placeholder="Write a message…" aria-label="Message" maxlength="2000">
+    <button class="send" type="submit" aria-label="Send message">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>
+      </svg>
+    
+  </button>
+  </form>
+</div>
  <div class="toast" id="toast" role="status"></div>
 </main>
 </div></div>
