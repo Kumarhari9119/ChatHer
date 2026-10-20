@@ -30,7 +30,30 @@
   overflow-x: hidden;
   padding: 0 10px 14px;
 }
-.chatrow{width:100%;display:flex;gap:12px;align-items:center;padding:12px;border:0;background:transparent;color:inherit;text-align:left;border-radius:14px}.chatrow:hover{background:var(--panel2)}.chatrow.active{background:var(--green2)}.avatar{height:46px;width:46px;flex:0 0 46px;border-radius:50%;display:grid;place-items:center;font-weight:750;color:#fff;background:linear-gradient(145deg,#4d9c7b,#236b54);position:relative}.avatar.pink{background:linear-gradient(145deg,#d79ba7,#a95f7a)}.avatar.blue{background:linear-gradient(145deg,#7fa9db,#496b9d)}.avatar.gold{background:linear-gradient(145deg,#d8b46c,#9b7740)}.online{position:absolute;right:0;bottom:1px;width:12px;height:12px;background:#43c98c;border:2px solid var(--panel);border-radius:50%}.chatmeta{min-width:0;flex:1}.chathead{display:flex;justify-content:space-between;gap:6px;align-items:center}.chatname{font-weight:680;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.time{font-size:11px;color:var(--muted);white-space:nowrap}.preview{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}.badge{background:var(--green);color:white;border-radius:20px;font-size:10px;padding:2px 6px}.sidefoot{margin-top:auto;padding:16px 20px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px}.sidefoot .avatar{height:34px;width:34px;flex-basis:34px;font-size:12px}.usertext{flex:1;min-width:0}.usertext strong{display:block;font-size:12px}.usertext span{font-size:11px;color:var(--muted)}.main{   min-width:0; min-height:0;  overflow:hidden;   display:flex;   flex-direction:column;   position:relative;   background:var(--panel); }.topbar{height:83px;flex:0 0 83px;padding:16px 25px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:13px}.topbar .avatar{height:44px;width:44px;flex-basis:44px}.person{flex:1;min-width:0}.person strong{display:block;font-size:15px}.person span{font-size:12px;color:var(--green)}.topactions{display:flex;gap:5px} .more-menu {
+.chatrow{width:100%;display:flex;gap:12px;align-items:center;padding:12px;border:0;background:transparent;color:inherit;text-align:left;border-radius:14px}.chatrow:hover{background:var(--panel2)}.chatrow.active{background:var(--green2)}.avatar{height:46px;width:46px;flex:0 0 46px;border-radius:50%;display:grid;place-items:center;font-weight:750;color:#fff;background:linear-gradient(145deg,#4d9c7b,#236b54);position:relative}.avatar.pink{background:linear-gradient(145deg,#d79ba7,#a95f7a)}.avatar.blue{background:linear-gradient(145deg,#7fa9db,#496b9d)}.avatar.gold{background:linear-gradient(145deg,#d8b46c,#9b7740)}.online{position:absolute;right:0;bottom:1px;width:12px;height:12px;background:#43c98c;border:2px solid var(--panel);border-radius:50%}.chatmeta{min-width:0;flex:1}.chathead{display:flex;justify-content:space-between;gap:6px;align-items:center}.chatname{font-weight:680;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.time{font-size:11px;color:var(--muted);white-space:nowrap}.preview{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}.badge{background:var(--green);color:white;border-radius:20px;font-size:10px;padding:2px 6px}.sidefoot{margin-top:auto;padding:16px 20px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px}.sidefoot .avatar{height:34px;width:34px;flex-basis:34px;font-size:12px}.usertext{flex:1;min-width:0}.usertext strong{display:block;font-size:12px}.usertext span{font-size:11px;color:var(--muted)}.main{   min-width:0; min-height:0;  overflow:hidden;   display:flex;   flex-direction:column;   position:relative;   background:var(--panel); }.topbar{height:83px;flex:0 0 83px;padding:16px 25px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:13px}.topbar .avatar{height:44px;width:44px;flex-basis:44px}.person{flex:1;min-width:0}.person strong{display:block;font-size:15px}.person span{font-size:12px;color:var(--green)}.topactions{display:flex;gap:5px} 
+
+.avatar img,
+.avatar-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+.avatar.has-photo {
+  overflow: hidden;
+  padding: 0;
+}
+.avatar-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.more-menu {
   position: absolute;
   right: 20px;
   top: 68px;
@@ -328,7 +351,18 @@ function fmtDay(ts){try{return ts?.toDate ? ts.toDate().toLocaleDateString() : "
 function stopListeners(){if(stopChatList)stopChatList();if(stopMessages)stopMessages();stopChatList=stopMessages=null}
 function renderChats(filter=""){
  const filtered=chats.filter(c=>(c.partnerName||"").toLowerCase().includes(filter.toLowerCase()));
- $("chatList").innerHTML=filtered.map(c=>`<button class="chatrow ${c.id===activeChatId?"active":""}" data-id="${safe(c.id)}"><div class="avatar">${safe(initials(c.partnerName))}${c.online?'<span class="online"></span>':""}</div><span class="chatmeta"><span class="chathead"><span class="chatname">${safe(c.partnerName)}</span><span class="time">${safe(c.lastTime||"")}</span></span><span class="chathead"><span class="preview">${safe(c.lastMessage||"Start a conversation")}</span></span></span></button>`).join("");
+ $("chatList").innerHTML=filtered.map(c=>`<button class="chatrow ${c.id===activeChatId?"active":""}" data-id="${safe(c.id)}">
+ 
+
+
+<div class="avatar ${c.photoURL ? "has-photo" : ""}">${
+  c.photoURL
+    ? `<img class="avatar-photo" src="${safe(c.photoURL)}" alt="">`
+    : safe(initials(c.partnerName))
+}</div>
+
+
+<span class="chatmeta"><span class="chathead"><span class="chatname">${safe(c.partnerName)}</span><span class="time">${safe(c.lastTime||"")}</span></span><span class="chathead"><span class="preview">${safe(c.lastMessage||"Start a conversation")}</span></span></span></button>`).join("");
  $("chatCount").textContent=String(filtered.length).padStart(2,"0");
  document.querySelectorAll(".chatrow").forEach(b=>b.onclick=()=>openChat(b.dataset.id));
 }
@@ -353,8 +387,23 @@ function loadChats(){
      const data=item.data(); const partnerId=(data.members||[]).find(uid=>uid!==currentUser.uid);
      if(!partnerId)continue;
      let partnerName="Private contact", partnerEmail="";
-     try{const profile=await getDoc(doc(db,"users",partnerId));if(profile.exists()){partnerName=profile.data().displayName||partnerName;partnerEmail=profile.data().email||""}}catch(e){}
-     next.push({id:item.id,partnerId,partnerName,partnerEmail,lastMessage:data.lastMessage||"",lastTime:data.updatedAt?.toDate?.().toLocaleDateString?.()||""});
+
+     let photoURL = "";
+
+try {
+  const profile = await getDoc(doc(db, "users", partnerId));
+
+  if (profile.exists()) {
+    const userData = profile.data();
+    partnerName = userData.displayName || partnerName;
+    partnerEmail = userData.email || "";
+    photoURL = userData.photoURL || "";
+  }
+} catch (e) {
+  console.error("Could not load profile photo:", e);
+}
+    
+next.push({id:item.id,partnerId,partnerName,partnerEmail, photoURL, lastMessage:data.lastMessage||"",lastTime:data.updatedAt?.toDate?.().toLocaleDateString?.()||""});
    }
    chats.splice(0,chats.length,...next);renderChats($("search").value);
    if(activeChatId&&!chats.some(c=>c.id===activeChatId)){activeChatId=null;activePartner=null;if(stopMessages)stopMessages();$("messages").innerHTML='<div class="empty"><h2>Choose a conversation</h2><p>Select an approved contact to start chatting.</p></div>'}
