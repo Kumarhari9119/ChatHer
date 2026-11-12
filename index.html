@@ -923,9 +923,7 @@ function setAuthMethod(method) {
   $("phoneFields").classList.toggle("hidden", !isPhone);
   $("authSubmit").classList.toggle("hidden", isPhone);
   $("authSwitch").classList.toggle("hidden", isPhone);
-  $("nameField").classList.toggle("hidden", isPhone || !signup);
-
-  $("authName").required = !isPhone && signup;
+ 
   $("authEmail").required = !isPhone;
   $("authCode").required = !isPhone;
 
