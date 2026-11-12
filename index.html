@@ -260,11 +260,7 @@
     </div>
 
     <form id="authForm">
-      <label class="field" id="nameField">
-        <span>Your name</span>
-        <input id="authName" maxlength="40"
-          placeholder="e.g. Hari Nandan">
-      </label>
+     
 
       <div id="emailFields">
         <label class="field">
@@ -1126,7 +1122,7 @@ if (configured) {
 
    listenForIncomingCalls();
 
-   
+
    $("messages").innerHTML='<div class="empty"><div class="logo">✦</div><h2>Your private space.</h2><p>Start a conversation by inviting the person using their registered email address.</p><button class="primary" id="startFirstChat">Start a conversation</button></div>';
    setTimeout(()=>{const b=$("startFirstChat");if(b)b.onclick=startConversation},0);
   });
