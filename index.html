@@ -977,14 +977,10 @@ $("authForm").addEventListener("submit", async e => {
 
   const email = $("authEmail").value.trim().toLowerCase();
   const password = $("authCode").value;
-  const name = $("authName").value.trim();
-
+  const name = "ChatHer User";
   try {
     if (signup) {
-      if (!name) {
-        showAuth("Please enter your name.");
-        return;
-      }
+      
 
       const cred = await createUserWithEmailAndPassword(
         auth, email, password
@@ -1080,7 +1076,7 @@ $("verifyOtpBtn").onclick = async () => {
     const profile = await getDoc(userRef);
 
     if (!profile.exists()) {
-      const name = $("authName").value.trim() || "Chather User";
+      const name = "Chather User";
 
       await updateProfile(user, { displayName: name });
 
