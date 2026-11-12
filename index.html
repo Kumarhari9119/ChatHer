@@ -109,6 +109,38 @@
   background-size: 21px 21px;
 }
 
+
+
+
+
+.call-action{border:0;background:transparent;color:var(--green);border-radius:10px;padding:9px;display:grid;place-items:center}.call-action:hover{background:var(--green2)}
+
+.call-overlay{position:fixed;inset:0;z-index:40;background:#07110def;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px;color:#fff;gap:16px}
+
+.call-stage{width:min(100%,900px);height:min(65vh,560px);position:relative;background:#15231d;border-radius:22px;overflow:hidden;display:grid;place-items:center}
+
+.call-stage video{width:100%;height:100%;object-fit:cover}.call-stage .remote-video{position:absolute;inset:0}.call-stage .local-video{position:absolute;width:clamp(110px,22%,210px);height:auto;aspect-ratio:3/4;right:16px;bottom:16px;border:2px solid #fff;border-radius:14px;background:#25352e;object-fit:cover}
+
+.call-controls{display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap}.call-controls button,.incoming-actions button{border:0;border-radius:999px;padding:13px 18px;font-weight:700;background:#263b31;color:#fff}.call-controls .end-call,.incoming-actions .reject{background:#d83c4b}.incoming-actions .accept{background:#1c9c68}.call-label{font-size:14px;color:#d4e2da}.call-overlay h2{margin:0;font-size:22px}.call-overlay p{margin:0;color:#c3d0c9;text-align:center}
+
+@media(max-width:600px){.call-stage{height:58vh}.call-overlay{padding:12px}.call-stage .local-video{width:31%;right:9px;bottom:9px}}
+
+
+
+
+
+
+@media(min-width:761px){.mobileback{display:none}}
+
+
+
+
+
+
+
+
+
+
 .daylabel{align-self:center;background:var(--panel);border:1px solid var(--line);padding:5px 12px;border-radius:20px;font-size:11px;color:var(--muted);margin:2px 0 8px}.msg{max-width:min(75%,480px);display:flex;flex-direction:column;gap:4px;align-self:flex-start}.msg.mine{align-self:flex-end}.bubble{padding:11px 14px;border-radius:4px 16px 16px 16px;background:var(--bubble);border:1px solid var(--line);box-shadow:0 2px 5px #00000004;overflow-wrap:anywhere}.mine .bubble{background:var(--mine);border-color:transparent;border-radius:16px 4px 16px 16px}.stamp{font-size:10px;color:var(--muted);align-self:flex-end;display:flex;gap:5px;align-items:center}.tick{color:var(--green);font-weight:800}.composer-wrap{padding:16px 23px 20px;border-top:1px solid var(--line);background:var(--panel)}.hint{font-size:10px;color:var(--muted);text-align:center;margin-bottom:10px}.composer{display:flex;align-items:center;gap:8px;padding:7px 8px;border:1px solid var(--line);background:var(--panel2);border-radius:16px}.composer input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--text);padding:9px 3px}.send{width:42px;height:42px;border:0;border-radius:12px;background:var(--green);color:white;display:grid;place-items:center}.send:hover{filter:brightness(1.07)}.send svg{width:19px}.empty{margin:auto;text-align:center;max-width:300px;padding:25px}.empty .logo{margin:0 auto 14px;width:52px;height:52px}.empty h2{margin:0 0 8px}.empty p{color:var(--muted);font-size:13px}.mobileback{display:none}.toast{position:absolute;bottom:95px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--panel);padding:10px 15px;border-radius:10px;font-size:12px;box-shadow:var(--shadow);display:none;z-index:5}.modalback{position:fixed;inset:0;background:#0a1510a8;backdrop-filter:blur(7px);display:grid;place-items:center;padding:20px;z-index:20}.modal{width:min(420px,100%);background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:30px;box-shadow:0 30px 100px #0003}.modal .brand{justify-content:center;margin-bottom:22px}.modal h2{text-align:center;margin:0 0 7px;font-size:24px;letter-spacing:-.7px}.modal p{text-align:center;color:var(--muted);font-size:13px;margin:0 0 24px}.field{display:block;margin:14px 0}.field span{display:block;font-size:12px;font-weight:650;margin-bottom:7px}.field input{width:100%;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:11px;padding:12px}.primary{width:100%;border:0;border-radius:12px;background:var(--green);color:white;font-weight:700;padding:13px;margin-top:8px}.switch{text-align:center;font-size:12px;color:var(--muted);margin-top:17px}.switch button{border:0;background:none;color:var(--green);font-weight:700}.demo-note{margin-top:17px;padding:11px;border-radius:10px;background:var(--green2);font-size:11px;color:var(--muted);text-align:center}.hidden{display:none!important}
 @media(max-width:760px){.app{padding:0}.shell{height:100dvh;min-height:0;border-radius:0;border:0;grid-template-columns:1fr}.sidebar{border-right:0}.main{display:none}.shell.showchat .sidebar{display:none}.shell.showchat .main{display:flex}.brandbar{padding-top:20px}.mobileback{display:grid}.topbar{padding:13px 14px}.conversation{padding:22px 15px}.msg{max-width:88%}.composer-wrap{padding:12px}.hint{display:none}.sidefoot{padding-bottom:20px}}
 .app {
@@ -177,6 +209,35 @@
     </main>
       </div>
       </div>
+
+
+
+
+<div class="call-overlay hidden" id="callOverlay" role="dialog" aria-modal="true" aria-label="Video call">
+
+  <h2 id="callTitle">Video call</h2><div class="call-label" id="callStatus">Connecting…</div>
+
+  <div class="call-stage"><video id="remoteVideo" class="remote-video" autoplay playsinline></video><video id="localVideo" class="local-video" autoplay muted playsinline></video></div>
+
+  <div class="call-controls"><button type="button" id="muteBtn">Mute mic</button><button type="button" id="cameraBtn">Turn camera off</button><button type="button" class="end-call" id="endCallBtn">End call</button></div>
+
+</div>
+
+<div class="call-overlay hidden" id="incomingOverlay" role="dialog" aria-modal="true" aria-label="Incoming video call">
+
+  <div style="font-size:48px">📹</div><h2 id="incomingCaller">Incoming video call</h2><p>Someone is calling you on Chather.</p>
+
+  <div class="incoming-actions"><button type="button" class="accept" id="acceptCallBtn">Accept</button> <button type="button" class="reject" id="rejectCallBtn">Reject</button></div>
+
+</div>
+
+<div class="modalback hidden" id="mediaPermissionHelp"><div class="modal"><h2>Camera or microphone unavailable</h2><p id="mediaErrorText">Allow camera and microphone access, then try again.</p><button class="primary" id="closeMediaHelp">OK</button></div></div>
+
+
+
+
+
+
 
 
 <div class="modalback" id="authModal">
@@ -309,7 +370,7 @@ import {
   signInWithPhoneNumber
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
-import { getFirestore, collection, doc, getDoc, getDocs, setDoc, addDoc, query, where, orderBy, onSnapshot, serverTimestamp, deleteDoc,  } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+import { getFirestore, collection, doc, getDoc, getDocs, setDoc, addDoc, query, updateDoc, where, orderBy, onSnapshot, serverTimestamp, deleteDoc,  } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
 
 /*
@@ -340,6 +401,26 @@ const safe = s => String(s ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;"
 let app, auth, db, currentUser=null, activeChatId=null, activePartner=null;
 let stopChatList=null, stopMessages=null, signup=false, toastTimer;
 const chats = [];
+
+
+
+// WebRTC call state. Audio/video travels peer-to-peer; Firestore is signaling only.
+
+let peerConnection=null, localStream=null, currentCallId=null, callRole=null;
+
+let stopIncomingCalls=null, stopCallDocument=null, stopRemoteIce=null;
+
+let micEnabled=true, cameraEnabled=true, pendingIncomingCall=null;
+
+const rtcConfig={iceServers:[{urls:"stun:stun.l.google.com:19302"}]};
+
+
+
+
+
+
+
+
 const ADMIN_UID = "sCI84D7jSmPtdy9J4DPmATqTW2l2";
 function toast(text){const t=$("toast");t.textContent=text;t.style.display="block";clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.style.display="none",3000)}
 function showAuth(message=""){ $("authModal").classList.remove("hidden"); $("authNotice").textContent=message || (configured ? "Your account is secured by Firebase Authentication." : "Setup required: add your Firebase web config to this file."); }
@@ -659,6 +740,139 @@ $("deleteChatBtn").onclick = async () => {
   }
 };
   
+
+
+
+// ---------------- VIDEO CALLING (WebRTC + Firestore signaling) ----------------
+
+function showMediaHelp(message){$("mediaErrorText").textContent=message;$("mediaPermissionHelp").classList.remove("hidden")}
+
+function setCallStatus(message){$("callStatus").textContent=message}
+
+function stopCallListeners(){if(stopCallDocument)stopCallDocument();if(stopRemoteIce)stopRemoteIce();stopCallDocument=stopRemoteIce=null}
+
+function closeCallMedia(){
+
+  if(peerConnection){peerConnection.ontrack=null;peerConnection.onicecandidate=null;peerConnection.close();peerConnection=null}
+
+  if(localStream){localStream.getTracks().forEach(track=>track.stop());localStream=null}
+
+  $("localVideo").srcObject=null;$("remoteVideo").srcObject=null;
+
+  $("callOverlay").classList.add("hidden");$("incomingOverlay").classList.add("hidden");
+
+  currentCallId=null;callRole=null;pendingIncomingCall=null;micEnabled=true;cameraEnabled=true;
+
+  $("muteBtn").textContent="Mute mic";$("cameraBtn").textContent="Turn camera off";stopCallListeners();
+
+}
+
+async function getCameraAndMic(){
+
+  if(!navigator.mediaDevices?.getUserMedia)throw new Error("Camera/microphone access requires HTTPS or localhost and a supported browser.");
+
+  return await navigator.mediaDevices.getUserMedia({audio:true,video:{facingMode:"user"}});
+
+}
+
+function makePeerConnection(callId,role){
+
+  const pc=new RTCPeerConnection(rtcConfig);localStream.getTracks().forEach(track=>pc.addTrack(track,localStream));
+
+  pc.ontrack=event=>{$("remoteVideo").srcObject=event.streams[0]};
+
+  pc.onicecandidate=async event=>{if(!event.candidate)return;const side=role==="caller"?"callerCandidates":"calleeCandidates";try{await addDoc(collection(db,"calls",callId,side),event.candidate.toJSON())}catch(error){console.error(error);toast("Call network setup issue: "+error.message)}};
+
+  pc.onconnectionstatechange=()=>{if(pc.connectionState==="connected")setCallStatus("Connected · video call in progress");else if(pc.connectionState==="connecting")setCallStatus("Connecting…");else if(["failed","disconnected"].includes(pc.connectionState))setCallStatus("Connection interrupted. You may need to call again.")};
+
+  peerConnection=pc;return pc;
+
+}
+
+function listenForRemoteIce(callId,remoteSide){
+
+  const q=query(collection(db,"calls",callId,remoteSide));
+
+  stopRemoteIce=onSnapshot(q,snapshot=>snapshot.docChanges().forEach(async change=>{if(change.type!=="added"||!peerConnection)return;try{await peerConnection.addIceCandidate(new RTCIceCandidate(change.doc.data()))}catch(error){console.warn("Could not add remote ICE candidate",error)}}),error=>toast("Call network signaling error: "+error.message));
+
+}
+
+function watchCallDocument(callId){
+
+  stopCallDocument=onSnapshot(doc(db,"calls",callId),snapshot=>{
+
+    if(!snapshot.exists()){closeCallMedia();return}const data=snapshot.data();
+
+    if(["ended","rejected","cancelled"].includes(data.status)){toast(data.status==="rejected"?"Call was declined.":data.status==="cancelled"?"Call cancelled.":"Call ended.");closeCallMedia();return}
+
+    if(callRole==="caller"&&data.answer&&!peerConnection?.currentRemoteDescription){peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer)).then(()=>{listenForRemoteIce(callId,"calleeCandidates");setCallStatus("Ringing… waiting for connection")}).catch(error=>{toast("Could not connect call: "+error.message);closeCallMedia()})}
+
+  },error=>{toast("Call status unavailable: "+error.message);closeCallMedia()});
+
+}
+
+async function startVideoCall(){
+
+  if(!currentUser||!activeChatId||!activePartner){toast("Open a conversation before starting a call.");return}if(currentCallId){toast("A call is already in progress.");return}
+
+  try{localStream=await getCameraAndMic();$("localVideo").srcObject=localStream;const callRef=doc(collection(db,"calls"));currentCallId=callRef.id;callRole="caller";
+
+    $("callTitle").textContent="Calling "+(activePartner.name||"your contact");$("callOverlay").classList.remove("hidden");setCallStatus("Calling… waiting for answer");
+
+    const pc=makePeerConnection(currentCallId,"caller");const offer=await pc.createOffer();await pc.setLocalDescription(offer);
+
+    await setDoc(callRef,{chatId:activeChatId,callerId:currentUser.uid,calleeId:activePartner.uid,status:"ringing",offer:{type:offer.type,sdp:offer.sdp},createdAt:serverTimestamp()});watchCallDocument(currentCallId);
+
+  }catch(error){console.error(error);closeCallMedia();showMediaHelp(error.name==="NotAllowedError"?"Please allow camera and microphone permissions in your browser, then reload Chather.":error.message||"Could not start the call.")}
+
+}
+
+function listenForIncomingCalls(){
+
+  if(stopIncomingCalls)stopIncomingCalls();const q=query(collection(db,"calls"),where("calleeId","==",currentUser.uid));
+
+  stopIncomingCalls=onSnapshot(q,snapshot=>snapshot.docChanges().forEach(change=>{if(change.type!=="added"||currentCallId)return;const data=change.doc.data();if(data.status!=="ringing"||data.callerId===currentUser.uid)return;if(data.createdAt?.toDate&&Date.now()-data.createdAt.toDate().getTime()>90000)return;pendingIncomingCall={id:change.doc.id,...data};$("incomingCaller").textContent="Incoming video call";$("incomingOverlay").classList.remove("hidden")}),error=>console.warn("Incoming call listener:",error.message));
+
+}
+
+async function acceptIncomingCall(){
+
+  const incoming=pendingIncomingCall;if(!incoming)return;
+
+  try{currentCallId=incoming.id;callRole="callee";localStream=await getCameraAndMic();$("localVideo").srcObject=localStream;$("incomingOverlay").classList.add("hidden");$("callOverlay").classList.remove("hidden");$("callTitle").textContent="Video call";setCallStatus("Connecting…");
+
+    const pc=makePeerConnection(currentCallId,"callee");await pc.setRemoteDescription(new RTCSessionDescription(incoming.offer));const answer=await pc.createAnswer();await pc.setLocalDescription(answer);
+
+    await updateDoc(doc(db,"calls",currentCallId),{answer:{type:answer.type,sdp:answer.sdp},status:"active"});listenForRemoteIce(currentCallId,"callerCandidates");watchCallDocument(currentCallId);
+
+  }catch(error){console.error(error);if(currentCallId){try{await updateDoc(doc(db,"calls",currentCallId),{status:"rejected"})}catch(_){}}closeCallMedia();showMediaHelp(error.name==="NotAllowedError"?"Allow camera and microphone access to accept the call.":error.message||"Could not accept the call.")}
+
+}
+
+async function rejectIncomingCall(){const incoming=pendingIncomingCall;if(!incoming)return;try{await updateDoc(doc(db,"calls",incoming.id),{status:"rejected"})}catch(error){toast("Could not reject call: "+error.message)}$("incomingOverlay").classList.add("hidden");pendingIncomingCall=null}
+
+async function endVideoCall(){const id=currentCallId;if(id){try{await updateDoc(doc(db,"calls",id),{status:"ended",endedAt:serverTimestamp()})}catch(error){console.warn(error)}}closeCallMedia()}
+
+$("videoCallBtn").addEventListener("click",startVideoCall);$("acceptCallBtn").addEventListener("click",acceptIncomingCall);$("rejectCallBtn").addEventListener("click",rejectIncomingCall);$("endCallBtn").addEventListener("click",endVideoCall);
+
+$("muteBtn").addEventListener("click",()=>{if(!localStream)return;micEnabled=!micEnabled;localStream.getAudioTracks().forEach(t=>t.enabled=micEnabled);$("muteBtn").textContent=micEnabled?"Mute mic":"Unmute mic"});
+
+$("cameraBtn").addEventListener("click",()=>{if(!localStream)return;cameraEnabled=!cameraEnabled;localStream.getVideoTracks().forEach(t=>t.enabled=cameraEnabled);$("cameraBtn").textContent=cameraEnabled?"Turn camera off":"Turn camera on"});
+
+$("closeMediaHelp").addEventListener("click",()=>$("mediaPermissionHelp").classList.add("hidden"));
+
+// -----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
 $("search").addEventListener("input",e=>renderChats(e.target.value));
 $("messageForm").addEventListener("submit",sendMessage);
 $("backBtn").onclick=()=>$("shell").classList.remove("showchat");
@@ -905,9 +1119,14 @@ if (configured) {
   "hidden",
   !user || user.uid !== ADMIN_UID
 );
-   if(!user){stopListeners();showAuth();return}
+      if(!user){stopListeners();if(stopIncomingCalls)stopIncomingCalls();stopIncomingCalls=null;closeCallMedia();showAuth();return}
+
    $("authModal").classList.add("hidden");$("userName").textContent=user.displayName||user.email||"Private account";
    loadChats();
+
+   listenForIncomingCalls();
+
+   
    $("messages").innerHTML='<div class="empty"><div class="logo">✦</div><h2>Your private space.</h2><p>Start a conversation by inviting the person using their registered email address.</p><button class="primary" id="startFirstChat">Start a conversation</button></div>';
    setTimeout(()=>{const b=$("startFirstChat");if(b)b.onclick=startConversation},0);
   });
