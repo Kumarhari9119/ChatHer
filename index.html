@@ -839,12 +839,62 @@ async function startVideoCall(){
 
 }
 
-function listenForIncomingCalls(){
+function listenForIncomingCalls() {
 
-  if(stopIncomingCalls)stopIncomingCalls();const q=query(collection(db,"calls"),where("calleeId","==",currentUser.uid));
+  if (stopIncomingCalls) stopIncomingCalls();
 
-  stopIncomingCalls=onSnapshot(q,snapshot=>snapshot.docChanges().forEach(change=>{if(change.type!=="added"||currentCallId)return;const data=change.doc.data();if(data.status!=="ringing"||data.callerId===currentUser.uid)return;if(data.createdAt?.toDate&&Date.now()-data.createdAt.toDate().getTime()>90000)return;pendingIncomingCall={id:change.doc.id,...data};$("incomingCaller").textContent="Incoming video call";$("incomingOverlay").classList.remove("hidden")}),error=>console.warn("Incoming call listener:",error.message));
+  const q = query(
+    collection(db, "calls"),
+    where("calleeId", "==", currentUser.uid)
+  );
 
+  console.log("Incoming call listener started:", currentUser.uid);
+
+  stopIncomingCalls = onSnapshot(
+    q,
+    snapshot => {
+
+      console.log("Incoming call documents:", snapshot.size);
+
+      snapshot.docChanges().forEach(change => {
+
+        const data = change.doc.data();
+
+        console.log("Call event:", {
+          type: change.type,
+          callId: change.doc.id,
+          status: data.status,
+          callerId: data.callerId,
+          calleeId: data.calleeId,
+          currentUser: currentUser.uid
+        });
+
+        if (change.type !== "added" || currentCallId) return;
+
+        if (data.status !== "ringing") return;
+
+        if (data.callerId === currentUser.uid) return;
+
+        if (
+          data.createdAt?.toDate &&
+          Date.now() - data.createdAt.toDate().getTime() > 90000
+        ) return;
+
+        pendingIncomingCall = {
+          id: change.doc.id,
+          ...data
+        };
+
+        $("incomingCaller").textContent = "Incoming video call";
+        $("incomingOverlay").classList.remove("hidden");
+
+      });
+
+    },
+    error => {
+      console.error("Incoming call listener error:", error);
+    }
+  );
 }
 
 async function acceptIncomingCall(){
