@@ -292,6 +292,12 @@
             autocomplete="current-password"
             placeholder="At least 6 characters">
         </label>
+        <button type="button" id="forgotPasswordBtn"
+  style="border:0;background:none;color:var(--green);
+  font-size:12px;font-weight:700;padding:4px 0;
+  cursor:pointer;">
+  Forgot password?
+</button>
       </div>
 
       <div id="phoneFields" class="hidden">
@@ -376,6 +382,7 @@ import {
   onAuthStateChanged,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
   updateProfile,
   signOut,
   RecaptchaVerifier,
@@ -982,6 +989,7 @@ function setAuthMethod(method) {
   $("authSubmit").classList.toggle("hidden", isPhone);
   $("authSwitch").classList.toggle("hidden", isPhone);
   $("nameField").classList.toggle("hidden", !signup || isPhone);
+  $("forgotPasswordBtn").classList.toggle("hidden", isPhone || signup);
   $("authName").required = signup && !isPhone;
   $("authEmail").required = !isPhone;
   $("authCode").required = !isPhone;
@@ -1023,6 +1031,33 @@ $("switchAuth").onclick = () => {
   signup = !signup;
   setAuthMethod("email");
 };
+
+$("forgotPasswordBtn").onclick = async () => {
+  const email = $("authEmail").value.trim().toLowerCase();
+
+  if (!email) {
+    showAuth("Please enter your registered email address first.");
+    $("authEmail").focus();
+    return;
+  }
+
+  try {
+    await sendPasswordResetEmail(auth, email);
+
+    showAuth(
+      "Password reset link sent! Please check your email inbox and spam folder."
+    );
+  } catch (err) {
+    showAuth(
+      err.code === "auth/user-not-found"
+        ? "No account found with this email address."
+        : err.code === "auth/invalid-email"
+          ? "Please enter a valid email address."
+          : err.message
+    );
+  }
+};
+
 
 $("authForm").addEventListener("submit", async e => {
   e.preventDefault();
