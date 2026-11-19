@@ -480,7 +480,7 @@ function renderMessages(items=[]){
  $("activeStatus").textContent="🔒 Private chat";
  $("messages").innerHTML='<div class="daylabel">MESSAGES ARE PRIVATE TO PARTICIPANTS</div>'+items.map(m=>{
    const mine=m.senderId===currentUser?.uid;
-   return `<div class="msg ${mine?"mine":""}"><div class="bubble">${safe(m.text)}</div><div class="stamp">${safe(fmtTime(m.createdAt))} ${mine?'<span class="tick">✓</span>':""}</div></div>`;
+   return `<div class="msg ${mine?"mine":""}"><div class="bubble">${formatMessageText(m.text)}</div><div class="stamp">${safe(fmtTime(m.createdAt))} ${mine?'<span class="tick">✓</span>':""}</div></div>`;
  }).join("");
  $("messages").scrollTop=$("messages").scrollHeight;
 }
