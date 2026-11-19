@@ -271,7 +271,7 @@
      
 
       <div id="emailFields">
-        <label class="field" id="nameField">
+        <label class="field hidden" id="nameField">
          <span>Your full name</span>
          <input
         id="authName"
@@ -484,85 +484,96 @@ function renderMessages(items=[]){
  }).join("");
  $("messages").scrollTop=$("messages").scrollHeight;
 }
-function loadChats(){
- if(!currentUser)return;
- if(stopChatList)stopChatList();
- const q=query(collection(db,"chats"),where("members","array-contains",currentUser.uid));
- stopChatList=onSnapshot(q,async snap=>{
-   const next=[];
-   for(const item of snap.docs){
 
+ 
+function loadChats() {
+  if (!currentUser) return;
 
+  if (stopChatList) stopChatList();
 
+  const q = query(
+    collection(db, "chats"),
+    where("members", "array-contains", currentUser.uid)
+  );
 
-     const dataconst data = item.data();
-const partnerId = (data.members || []).find(
-  uid => uid !== currentUser.uid
-);
+  stopChatList = onSnapshot(q, async snap => {
+    const next = [];
 
-if (!partnerId) continue;
+    for (const item of snap.docs) {
+      const data = item.data();
 
-// Check whether current user deleted this chat
-const hiddenSnap = await getDoc(
-  doc(db, "users", currentUser.uid, "hiddenChats", item.id)
-);
+      const partnerId = (data.members || []).find(
+        uid => uid !== currentUser.uid
+      );
 
-const hiddenAt = hiddenSnap.exists()
-  ? hiddenSnap.data().deletedAt
-  : null;
+      if (!partnerId) continue;
 
-const hiddenTime = hiddenAt?.toMillis?.() || 0;
-const updatedTime = data.updatedAt?.toMillis?.() || 0;
+      const hiddenSnap = await getDoc(
+        doc(db, "users", currentUser.uid, "hiddenChats", item.id)
+      );
 
-// Hide chat if there is no newer activity
-if (hiddenTime && updatedTime <= hiddenTime) continue;=item.data(); const partnerId=(data.members||[]).find(uid=>uid!==currentUser.uid);
+      const hiddenAt = hiddenSnap.exists()
+        ? hiddenSnap.data().deletedAt
+        : null;
 
+      const hiddenTime = hiddenAt?.toMillis?.() || 0;
+      const updatedTime = data.updatedAt?.toMillis?.() || 0;
 
+      if (hiddenTime && updatedTime <= hiddenTime) continue;
 
+      let partnerName = "Private contact";
+      let partnerEmail = "";
+      let photoURL = "";
 
-     
-     if(!partnerId)continue;
-     let partnerName="Private contact", partnerEmail="";
+      try {
+        const profile = await getDoc(doc(db, "users", partnerId));
 
-     let photoURL = "";
+        if (profile.exists()) {
+          const userData = profile.data();
+          partnerName = userData.displayName || partnerName;
+          partnerEmail = userData.email || "";
+          photoURL = userData.photoURL || "";
+        }
+      } catch (e) {
+        console.error("Could not load profile:", e);
+      }
 
-try {
-  const profile = await getDoc(doc(db, "users", partnerId));
+      next.push({
+        id: item.id,
+        partnerId,
+        partnerName,
+        partnerEmail,
+        photoURL,
+        lastMessage: data.lastMessage || "",
+        lastTime: data.updatedAt?.toDate?.().toLocaleDateString?.() || "",
+        deletedAt: hiddenAt
+      });
+    }
 
-  if (profile.exists()) {
-    const userData = profile.data();
-    partnerName = userData.displayName || partnerName;
-    partnerEmail = userData.email || "";
-    photoURL = userData.photoURL || "";
-  }
-} catch (e) {
-  console.error("Could not load profile photo:", e);
+    chats.splice(0, chats.length, ...next);
+    renderChats($("search").value);
+
+    if (activeChatId && !chats.some(c => c.id === activeChatId)) {
+      activeChatId = null;
+      activePartner = null;
+
+      if (stopMessages) {
+        stopMessages();
+        stopMessages = null;
+      }
+
+      $("messages").innerHTML =
+        '<div class="empty"><h2>Choose a conversation</h2><p>Select an approved contact to start chatting.</p></div>';
+    }
+
+  }, err => {
+    console.error("ChatHer loadChats Firestore error:", err);
+    toast("Could not load chats: " + err.message);
+  });
 }
-    
 
 
 
-next.push({
-  id: item.id,
-  partnerId,
-  partnerName,
-  partnerEmail,
-  photoURL,
-  lastMessage: data.lastMessage || "",
-  lastTime: data.updatedAt?.toDate?.().toLocaleDateString?.() || "",
-  deletedAt: hiddenAt
-});
-
-
-
-}
-   chats.splice(0,chats.length,...next);renderChats($("search").value);
-   if(activeChatId&&!chats.some(c=>c.id===activeChatId)){activeChatId=null;activePartner=null;if(stopMessages)stopMessages();$("messages").innerHTML='<div class="empty"><h2>Choose a conversation</h2><p>Select an approved contact to start chatting.</p></div>'}
- }, err => {
-  console.error("ChatHer loadChats Firestore error:", err.code, err.message, err);
-  toast("Could not load chats: " + err.code + " — " + err.message);
-});
-}
 
 async function openChat(id) {
   const c = chats.find(x => x.id === id);
@@ -865,42 +876,10 @@ $("deleteChatBtn").onclick = async () => {
   }
 };
 
-  $("moreMenu").classList.add("hidden");
+ 
+   
 
-  if (!currentUser || !activeChatId) {
-    toast("Pehle ek chat open karo.");
-    return;
-  }
-
-  const chatId = activeChatId;
-
-  if (!confirm("Delete Chat? Conversation aur uske saare messages dono participants ke liye remove ho jayenge.")) {
-    return;
-  }
-
-  try {
-    await removeAllChatMessages(chatId);
-    await deleteDoc(doc(db, "chats", chatId));
-
-    if (stopMessages) {
-      stopMessages();
-      stopMessages = null;
-    }
-
-    activeChatId = null;
-    activePartner = null;
-    $("shell").classList.remove("showchat");
-    $("messages").innerHTML =
-      '<div class="empty"><h2>Chat deleted</h2><p>Choose another conversation.</p></div>';
-
-    toast("Chat deleted.");
-  } catch (error) {
-    console.error("Delete Chat failed:", error);
-    toast("Delete Chat failed: " + error.message);
-  }
-};
   
-
 
 
 // ---------------- VIDEO CALLING (WebRTC + Firestore signaling) ----------------
@@ -1212,7 +1191,7 @@ $("authForm").addEventListener("submit", async e => {
 
   const email = $("authEmail").value.trim().toLowerCase();
   const password = $("authCode").value;
-  const name = "ChatHer User";
+  const name =$("authName").value.trim();
   try {
     if (signup) {
       
